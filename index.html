@@ -14,14 +14,14 @@
             height: 100vh;
             margin: 0;
             flex-direction: column;
-            overflow: hidden; /* Prevent scrolling when button moves */
             text-align: center;
+            overflow: hidden; /* Prevent scrolling */
         }
 
         h1 {
-            font-size: 6vw; /* Scalable font size for smaller screens */
+            font-size: 8vw; /* Scalable font size for smaller screens */
             color: #4B0082; /* Dark Purple */
-            margin-bottom: 5vh; /* Dynamic space below title */
+            margin-bottom: 10vh; /* Dynamic space below title */
         }
 
         .buttons-container {
@@ -32,8 +32,8 @@
         }
 
         .button {
-            padding: 4vh 8vw; /* Scalable padding for better tap area */
-            font-size: 5vw; /* Scalable text size for smaller screens */
+            padding: 3vh 6vw; /* Scalable padding for better tap area */
+            font-size: 4.5vw; /* Scalable text size for smaller screens */
             border: none;
             border-radius: 10px;
             cursor: pointer;
@@ -57,15 +57,27 @@
             transform: scale(1.2); /* Grow by 20px every time No is hovered */
         }
 
-        /* Media Query for small screens */
-        @media (max-width: 600px) {
+        /* Media Query for very small screens (under 400px) */
+        @media (max-width: 400px) {
             h1 {
-                font-size: 8vw; /* Bigger text on very small screens */
+                font-size: 10vw; /* Increase text size for very small screens */
             }
 
             .button {
-                padding: 5vh 10vw; /* Larger buttons on small screens */
-                font-size: 6vw; /* Bigger text size on small screens */
+                padding: 5vh 8vw; /* Larger buttons on small screens */
+                font-size: 5.5vw; /* Larger button text for better touch */
+            }
+        }
+
+        /* Media Query for small screens (under 600px) */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 9vw; /* Bigger text on small screens */
+            }
+
+            .button {
+                padding: 4vh 7vw; /* Medium size buttons on small screens */
+                font-size: 5vw; /* Button text size for small screens */
             }
         }
     </style>
@@ -88,10 +100,10 @@
             initialYesButtonSize += 0.2; // Increase by 20px in scale
             yesButton.style.transform = `scale(${initialYesButtonSize})`;
 
-            // Teleport the No button within a smaller area (300x300px) from its initial position
+            // Teleport the No button within a smaller area (200x200px) from its initial position
             const rect = noButton.getBoundingClientRect();
-            const maxX = 300;
-            const maxY = 300;
+            const maxX = 200;
+            const maxY = 200;
             const randomX = Math.random() * maxX;
             const randomY = Math.random() * maxY;
 
