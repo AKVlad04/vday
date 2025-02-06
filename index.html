@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,9 +20,10 @@
         }
 
         h1 {
-            font-size: 8vw; /* Scalable font size for smaller screens */
-            color: #4B0082; /* Dark Purple */
+            font-size: 6vw; /* Smaller scalable font size */
+            color: #FF69B4; /* Hot Pink */
             margin-bottom: 10vh; /* Dynamic space below title */
+            font-weight: 700;
         }
 
         .buttons-container {
@@ -32,83 +34,160 @@
         }
 
         .button {
-            padding: 3vh 6vw; /* Scalable padding for better tap area */
-            font-size: 4.5vw; /* Scalable text size for smaller screens */
+            width: 160px;
+            height: 70px;
+            font-size: 20px;
+            font-weight: 600;
+            border-radius: 50px; /* Fully rounded buttons */
             border: none;
-            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            width: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            text-transform: uppercase;
         }
 
         .yes-button {
-            background-color: #32CD32; /* Green */
+            background: linear-gradient(135deg, #32CD32, #228B22); /* Green gradient */
             color: white;
         }
 
         .no-button {
-            background-color: #FF6347; /* Tomato */
+            background: linear-gradient(135deg, #FF6347, #FF4500); /* Tomato gradient */
             color: white;
-            position: relative;
         }
 
-        /* No hover effect for Yes button, but it grows by 20px when No is hovered */
-        .yes-button.grow {
-            transform: scale(1.2); /* Grow by 20px every time No is hovered */
+        .button:hover {
+            transform: scale(1.1); /* Slightly enlarge the button on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
         }
 
-        /* Media Query for very small screens (under 400px) */
-        @media (max-width: 400px) {
-            h1 {
-                font-size: 10vw; /* Increase text size for very small screens */
-            }
-
-            .button {
-                padding: 5vh 8vw; /* Larger buttons on small screens */
-                font-size: 5.5vw; /* Larger button text for better touch */
-            }
+        .button:active {
+            transform: scale(0.95); /* Shrink the button on click */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Reduced shadow on click */
         }
 
-        /* Media Query for small screens (under 600px) */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 9vw; /* Bigger text on small screens */
-            }
+        /* Full-screen GIF container */
+        .gif-container {
+            display: none; /* Initially hidden */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #FFC0CB; /* Optional: add a background overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Ensure the text is below the GIF */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out; /* Faster fade-in transition */
+        }
 
-            .button {
-                padding: 4vh 7vw; /* Medium size buttons on small screens */
-                font-size: 5vw; /* Button text size for small screens */
-            }
+        .gif-container img {
+            max-width: 90%;
+            max-height: 90%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out; /* Faster fade-in transition for GIFs */
+        }
+
+        .gif-text {
+            font-size: 2em;
+            color: #FF69B4; /* Hot Pink */
+            margin-top: 20px; /* Space between GIF and text */
         }
     </style>
 </head>
 <body>
-    <h1>Wanna be my Valentine?</h1>
+    <h1 id="main-text">Vrei sa fii partenera mea de Valentine's day?</h1>
     <div class="buttons-container">
         <button class="button yes-button">Yes</button>
         <button class="button no-button">No</button>
     </div>
 
+    <!-- Full-screen GIF container -->
+    <div class="gif-container" id="gif-container" style="display: none;">
+        <img id="gif" src="" alt="Valentine GIF">
+        <p class="gif-text">stiiammm euuu <3</p>
+    </div>
+
+    <!-- Include the canvas-confetti library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
     <script>
-        const noButton = document.querySelector('.no-button');
-        const yesButton = document.querySelector('.yes-button');
+        // Array of GIF URLs
+        const gifs = [
+            "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExanQ3aDF4aXpocmo0MG1ndnJ3azlubnppcjB4bWxkZTAybzY4Y2o1MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Ch0JvNvkk7PH2/giphy.gif",
+            "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnc1eW5yaml0c21uNzVrc2Z3aXhlZjF0cDB4a2Rpemo3NnBhcTRqYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/t3sZxY5zS5B0z5zMIz/giphy.gif",
+            "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExanpoYzJhNnp2d2thOG54ZGRyY3JnMDNzbnk1ZXpqNjZ3N3JwZGlxdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hryis7A55UXZNCUTNA/giphy.gif",
+            "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExemozeXEwcXRtaWlxajE3bnh2dnRkNmNlbWR1NWM3MXBuNmU3YTdpdCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yLieULk2FUW6EvkWjA/giphy.gif",
+            "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ211aHc0ZXA5eW91cDBwaW5ycnR5dXJ5bWI2aGx2MWl1YmIwOXA4bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT5LMHxhOfscxPfIfm/giphy.gif",
+            "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTZjZG5kejB3NmhwYTZzaXppNGtub20zaTZtZmIycGFjeW5xamIybyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/rjkJD1v80CjYs/giphy.gif",
+            "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzRnc3JhbDgyNzFzM3FueXRkd2E2bmVmNTQycmN5NDN0OXlyeWJtMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/F1P5wA3Ai0jFAAWQFA/giphy.gif",
+            "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWU3OTBpN3ljaTNzd3ZxMG5sZDMxNmtva282emhkN2l5amxseXd5dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/W6Lwg2xvTr6tJpuSTd/giphy.gif",
+            "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGpncWt5cXFtZGg5NHYwZm5sbnRncjF5bHkyZTJqaWhzYzIwcmhzZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/13Iu9mjLpXF0ek/giphy.gif",
+            "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTBkOWZoYnViNHJvczhuemJjb2Fqd2UzN3lnanhwczRmcGFoa3V0YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ddHhhUBn25cuQ/giphy.gif",
+            "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNG81cW9iN3ZybTQ5dTI3OG4zdHhma2s2M2k4bzc2dGdkeTRxanUzeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/QlvPwCTw59B2E/giphy.gif"
+        ];
 
-        let initialYesButtonSize = 1; // Initial scale factor for the Yes button
+        let currentGif = 0; // Keep track of which GIF to show
 
-        noButton.addEventListener('mouseenter', function() {
-            // Make the Yes button grow by 20px each time
-            initialYesButtonSize += 0.2; // Increase by 20px in scale
-            yesButton.style.transform = `scale(${initialYesButtonSize})`;
+        // Add the confetti animation when 'Yes' is clicked
+        document.querySelector('.yes-button').addEventListener('click', function() {
+            // Trigger a larger confetti animation
+            confetti({
+                particleCount: 300, // Increase number of confetti pieces
+                spread: 100,        // Increase spread
+                scalar: 1.5,        // Make the confetti bigger
+                origin: { x: 0.5, y: 0.5 } // Center confetti
+            });
 
-            // Teleport the No button within a smaller area (200x200px) from its initial position
-            const rect = noButton.getBoundingClientRect();
-            const maxX = 200;
-            const maxY = 200;
-            const randomX = Math.random() * maxX;
-            const randomY = Math.random() * maxY;
+            // Hide main content and show GIF container
+            document.querySelector('h1').style.display = 'none';
+            document.querySelector('.buttons-container').style.display = 'none';
+            const gifContainer = document.getElementById('gif-container');
+            gifContainer.style.display = 'flex';
+            gifContainer.style.opacity = 1; // Fade in the container
 
-            // Apply the random position while making sure the button stays within the bounds
-            noButton.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            // Change GIF every 2 seconds with smooth transition
+            function changeGif() {
+                const gif = document.getElementById('gif');
+                gif.style.opacity = 0; // Start fading out current GIF
+
+                setTimeout(() => {
+                    // Change GIF source
+                    gif.src = gifs[currentGif];
+                    gif.style.opacity = 1; // Fade in the new GIF
+
+                    currentGif = (currentGif + 1) % gifs.length; // Loop through the GIFs
+                }, 500); // 500ms delay to allow fading out effect
+
+                // Change GIF every 2 seconds
+                setTimeout(changeGif, 2000); // 2000ms = 2 seconds
+            }
+
+            // Start the GIF loop
+            changeGif();
+        });
+
+        // Shake animation when the "No" button is clicked
+        document.querySelector('.no-button').addEventListener('click', function() {
+            this.classList.add('shake');
+
+            const mainText = document.getElementById('main-text');
+            mainText.textContent = "mai incearca :p";
+
+            setTimeout(() => {
+                mainText.textContent = "Vrei sa fii partenera mea de Valentine's day?";
+            }, 2000);
+
+            setTimeout(() => {
+                this.classList.remove('shake');
+            }, 300);
         });
     </script>
 </body>
