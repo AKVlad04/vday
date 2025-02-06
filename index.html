@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -172,6 +171,16 @@
 
             // Start the GIF loop
             changeGif();
+
+            // Add continuous confetti effect every 2 seconds while GIFs change
+            setInterval(() => {
+                confetti({
+                    particleCount: 100, // Moderate confetti burst
+                    spread: 100,         // Moderate spread
+                    scalar: 2,        // Moderate confetti size
+                    origin: { x: 0.5, y: 0.5 } // Keep confetti centered
+                });
+            }, 2000); // Confetti fires every 2 seconds
         });
 
         // Shake animation when the "No" button is clicked
