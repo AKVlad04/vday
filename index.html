@@ -48,13 +48,9 @@
             position: relative;
         }
 
-        .yes-button:hover {
-            transform: scale(1.1);
-        }
-
-        /* No hover effect for Yes button, but it grows by 5px when No is hovered */
+        /* No hover effect for Yes button, but it grows by 20px when No is hovered */
         .yes-button.grow {
-            transform: scale(1.05); /* Grow by 5px every time No is hovered */
+            transform: scale(1.2); /* Grow by 20px every time No is hovered */
         }
     </style>
 </head>
@@ -72,14 +68,14 @@
         let initialYesButtonSize = 1; // Initial scale factor for the Yes button
 
         noButton.addEventListener('mouseenter', function() {
-            // Make the Yes button grow by 5px each time
-            initialYesButtonSize += 0.05;
+            // Make the Yes button grow by 20px each time
+            initialYesButtonSize += 0.2; // Increase by 20px in scale
             yesButton.style.transform = `scale(${initialYesButtonSize})`;
 
-            // Teleport the No button within 800x800px from its initial position
+            // Teleport the No button within a smaller area (300x300px) from its initial position
             const rect = noButton.getBoundingClientRect();
-            const maxX = 800;
-            const maxY = 800;
+            const maxX = 300;
+            const maxY = 300;
             const randomX = Math.random() * maxX;
             const randomY = Math.random() * maxY;
 
