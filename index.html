@@ -44,12 +44,17 @@
         .no-button {
             background-color: #FF6347; /* Tomato */
             color: white;
+            position: relative;
         }
 
-        /* No hover effect on the 'Yes' button */
+        .yes-button:hover {
+            transform: scale(1.1);
+        }
+
         .no-button:hover {
-            position: relative;
-            transform: translateX(calc(100px * (random - 0.5)));
+            position: absolute;
+            transform: translateX(200px) translateY(200px);
+            pointer-events: none; /* Disable clicking when hovered */
         }
     </style>
 </head>
