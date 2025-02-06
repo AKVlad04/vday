@@ -15,26 +15,30 @@
             margin: 0;
             flex-direction: column;
             overflow: hidden; /* Prevent scrolling when button moves */
+            text-align: center;
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 6vw; /* Scalable font size for smaller screens */
             color: #4B0082; /* Dark Purple */
-            margin-bottom: 20px;
+            margin-bottom: 5vh; /* Dynamic space below title */
         }
 
         .buttons-container {
             display: flex;
-            gap: 20px;
+            flex-direction: column;
+            gap: 5vh; /* Vertical gap between buttons */
+            align-items: center;
         }
 
         .button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 4vh 8vw; /* Scalable padding for better tap area */
+            font-size: 5vw; /* Scalable text size for smaller screens */
             border: none;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
+            width: auto;
         }
 
         .yes-button {
@@ -51,6 +55,18 @@
         /* No hover effect for Yes button, but it grows by 20px when No is hovered */
         .yes-button.grow {
             transform: scale(1.2); /* Grow by 20px every time No is hovered */
+        }
+
+        /* Media Query for small screens */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 8vw; /* Bigger text on very small screens */
+            }
+
+            .button {
+                padding: 5vh 10vw; /* Larger buttons on small screens */
+                font-size: 6vw; /* Bigger text size on small screens */
+            }
         }
     </style>
 </head>
