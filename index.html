@@ -51,6 +51,11 @@
         .yes-button:hover {
             transform: scale(1.1);
         }
+
+        /* No hover effect for Yes button, but it grows by 5px when No is hovered */
+        .yes-button.grow {
+            transform: scale(1.05); /* Grow by 5px every time No is hovered */
+        }
     </style>
 </head>
 <body>
@@ -62,22 +67,24 @@
 
     <script>
         const noButton = document.querySelector('.no-button');
+        const yesButton = document.querySelector('.yes-button');
 
-        // Event listener for mousemove on the document
-        document.addEventListener('mousemove', function(event) {
-            const mouseX = event.clientX;
-            const mouseY = event.clientY;
+        let initialYesButtonSize = 1; // Initial scale factor for the Yes button
 
-            const buttonRect = noButton.getBoundingClientRect();
-            const buttonX = buttonRect.left + buttonRect.width / 2;
-            const buttonY = buttonRect.top + buttonRect.height / 2;
+        noButton.addEventListener('mouseenter', function() {
+            // Make the Yes button grow by 5px each time
+            initialYesButtonSize += 0.05;
+            yesButton.style.transform = `scale(${initialYesButtonSize})`;
 
-            // Calculate the direction opposite of the cursor
-            const moveX = mouseX - buttonX;
-            const moveY = mouseY - buttonY;
+            // Teleport the No button within 800x800px from its initial position
+            const rect = noButton.getBoundingClientRect();
+            const maxX = 800;
+            const maxY = 800;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
 
-            // Move the button in the opposite direction
-            noButton.style.transform = `translate(${ -moveX }px, ${ -moveY }px)`;
+            // Apply the random position while making sure the button stays within the bounds
+            noButton.style.transform = `translate(${randomX}px, ${randomY}px)`;
         });
     </script>
 </body>
